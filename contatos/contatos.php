@@ -2,6 +2,9 @@
 
 session_start ( );
 
+require 'banco.php';
+require 'ajudantes.php';
+
 if ( !empty ( $_GET['nome'] ) ) {
 	$contato = [];
 
@@ -10,16 +13,12 @@ if ( !empty ( $_GET['nome'] ) ) {
 	$contato['email'] = $_GET['email'] ?? '';
 	$contato['descricao'] = $_GET['descricao'] ?? '';
 	$contato['data'] = $_GET['data'] ?? '';
-	$contato['favorito'] = $_GET['favorito'] ?? '';
+	$contato['favorito'] = isset ( $_GET['favorito'] ) ? 1 : 0;
 
-	$_SESSION['lista_contatos'][] = $contato;
+	gravar_contato ( $conexao, $contato );
 	
 }
 
-$lista_contatos = [];
-
-if ( array_key_exists ( 'lista_contatos', $_SESSION ) ) {
-	$lista_contatos = $_SESSION['lista_contatos'];
-}
+$lista_contatos = buscar_contatos ( $conexao );
 
 include 'template.php';
