@@ -44,3 +44,11 @@ function gravar_veiculo ( $conexao, $veiculo ) {
 
 	mysqli_query ( $conexao, $sqlGravar );
 }
+
+function remover_veiculo ( $conexao, $id ) {
+
+	$sqlRemover = "DELETE FROM veiculos WHERE id = {$id}";
+
+	mysqli_query ( $conexao, $sqlRemover );
+	
+}

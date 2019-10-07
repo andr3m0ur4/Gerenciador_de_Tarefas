@@ -76,3 +76,19 @@ function remover_tarefa ( $conexao, $id ) {
 	mysqli_query ( $conexao, $sqlRemover );
 	
 }
+
+function duplicar_tarefa ( $conexao, $id ) {
+
+	$tarefa = buscar_tarefa ( $conexao, $id );
+
+	gravar_tarefa ( $conexao, $tarefa );
+	
+}
+
+function remover_tarefas_concluidas ( $conexao ) {
+
+	$sqlRemover = "DELETE FROM tarefas WHERE concluida = 1";
+
+	mysqli_query ( $conexao, $sqlRemover );
+	
+}
