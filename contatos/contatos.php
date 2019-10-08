@@ -7,20 +7,48 @@ require 'ajudantes.php';
 
 $exibir_tabela = true;
 
-if ( !empty ( $_GET['nome'] ) ) {
+$tem_erros = false;
+$erros_validacao = [];
+
+if ( tem_post ( ) ) {
 	$contato = [];
 
-	$contato['nome'] = $_GET['nome'] ?? '';
-	$contato['telefone'] = $_GET['telefone'] ?? '';
-	$contato['email'] = $_GET['email'] ?? '';
-	$contato['descricao'] = $_GET['descricao'] ?? '';
-	$contato['data'] = $_GET['data'] ?? '';
-	$contato['favorito'] = isset ( $_GET['favorito'] ) ? 1 : 0;
+	$contato['nome'] = $_POST['nome'] ?? '';
+	if ( empty ( $contato['nome'] ) ) {
+		$tem_erros = true;
+		$erros_validacao['nome'] = 'O nome do contato é obrigatório!';
+	}
 
-	gravar_contato ( $conexao, $contato );
+	$contato['telefone'] = $_POST['telefone'] ?? '';
+	if ( empty ( $contato['telefone'] ) ) {
+		$tem_erros = true;
+		$erros_validacao['telefone'] = 'O telefone do contato é obrigatório!';
+	} else if ( !validar_telefone ( $contato['telefone'] ) ) {
+		$tem_erros = true;
+		$erros_validacao['telefone'] = 'O telefone do contato não é válido!';
+	}
 
-	header ( 'Location: contatos.php' );
-	die ( );
+	$contato['email'] = $_POST['email'] ?? '';
+	if ( empty ( $contato['email'] ) ) {
+		$tem_erros = true;
+		$erros_validacao['email'] = 'O email do contato é obrigatório!';
+	}
+
+	$contato['descricao'] = $_POST['descricao'] ?? '';
+	$contato['data'] = $_POST['data'] ?? '';
+	if ( !empty ( $contato['data'] ) AND !validar_data ( $contato['data'] ) ) {
+		$tem_erros = true;
+		$erros_validacao['data'] = 'A data de nascimento não é uma data válida!';
+	}
+
+	$contato['favorito'] = isset ( $_POST['favorito'] ) ? 1 : 0;
+
+	if ( !$tem_erros ) {
+		gravar_contato ( $conexao, $contato );
+
+		header ( 'Location: contatos.php' );
+		die ( );
+	}
 	
 }
 
@@ -32,12 +60,12 @@ if ( !isset ( $_GET['favoritos'] ) ) {
 
 $contato = [
 	'id' => 0,
-	'nome' => '',
-	'telefone' => '',
-	'email' => '',
-	'descricao' => '',
-	'data_nascimento' => '',
-	'favorito' => ''
+	'nome' => $_POST['nome'] ?? '',
+	'telefone' => $_POST['telefone'] ?? '',
+	'email' => $_POST['email'] ?? '',
+	'descricao' => $_POST['descricao'] ?? '',
+	'data_nascimento' => $_POST['data'] ?? '',
+	'favorito' => $_POST['favorito'] ?? ''
 ];
 
 include 'template.php';

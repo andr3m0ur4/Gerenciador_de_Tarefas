@@ -27,3 +27,42 @@ function traduz_favorito ( $favorito ) {
 
 	return 'Não';
 }
+
+function tem_post ( ) {
+
+	if ( count ( $_POST ) > 0 ) {
+		return true;
+	}
+
+	return false;
+	
+}
+
+function validar_telefone ( $telefone ) {
+
+	$padrao = '/^\([0-9]{2}\)[0-9]{4,5}\-[0-9]{4}$/';
+	$resultado = preg_match ( $padrao, $telefone );
+
+	return ( $resultado == 1 );
+}
+
+function validar_data ( $data ) {
+
+	$padrao = '/^[0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2}$/';
+	$resultado = preg_match ( $padrao, $data );
+
+	if ( $resultado == 0 ) {
+		return false;
+	}
+
+	$dados = explode ( '-', $data );
+
+	$dia = $dados[2];
+	$mes = $dados[1];
+	$ano = $dados[0];
+
+	$resultado = checkdate ( $mes, $dia, $ano );
+
+	return $resultado;
+
+}

@@ -1,9 +1,14 @@
-<form>
+<form method="POST">
 	<input type="hidden" name="id" value="<?php echo $veiculo['id']; ?>">
 	<fieldset>
 		<legend>Nova veículo</legend>
 		<label>
 			Placa:
+			<?php if ( $tem_erros AND isset ( $erros_validacao['placa'] ) ) : ?>
+				<span class="erro">
+					<?php echo $erros_validacao['placa']; ?>
+				</span>
+			<?php endif; ?>
 			<input type="text" name="placa" value="<?php echo $veiculo['placa']; ?>">
 		</label>
 		<label>
