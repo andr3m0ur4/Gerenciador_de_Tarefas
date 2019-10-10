@@ -66,3 +66,18 @@ function validar_data ( $data ) {
 	return $resultado;
 
 }
+
+function tratar_foto ( $foto ) {
+
+	$padrao = '/^.+(\.jpg|\.png|\.gif)$/';
+	$resultado = preg_match ( $padrao, $foto['name'] );
+
+	if ( $resultado == 0 ) {
+		return false;
+	}
+
+	move_uploaded_file ( $foto['tmp_name'], "fotos/{$foto['name']}" );
+
+	return true;
+	
+}

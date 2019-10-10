@@ -10,13 +10,20 @@
 
 	<?php foreach ( $lista_veiculos as $veiculo ) : ?>
 		<tr>
-			<td><?php echo $veiculo['placa']; ?></td>
-			<td><?php echo $veiculo['marca']; ?></td>
-			<td><?php echo $veiculo['modelo']; ?></td>
-			<td><?php echo traduz_hora_para_exibir ( $veiculo['hora_entrada'] ); ?></td>
-			<td><?php echo traduz_hora_para_exibir ( $veiculo['hora_saida'] ); ?></td>
 			<td>
-				<a href="remover.php?id=<?php echo $veiculo['id']; ?>">
+				<a href="veiculo.php?id=<?= $veiculo['id'] ?>">
+					<?= $veiculo['placa'] ?>
+				</a>
+			</td>
+			<td><?= $veiculo['marca'] ?></td>
+			<td><?= $veiculo['modelo'] ?></td>
+			<td><?= traduz_hora_para_exibir ( $veiculo['hora_entrada'] ) ?></td>
+			<td><?= traduz_hora_para_exibir ( $veiculo['hora_saida'] ) ?></td>
+			<td>
+				<a href="editar.php?id=<?= $veiculo['id'] ?>">
+					Editar
+				</a>
+				<a href="remover.php?id=<?= $veiculo['id'] ?>">
 					Remover
 				</a>
 			</td>

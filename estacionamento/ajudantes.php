@@ -55,3 +55,16 @@ function validar_placa ( $placa ) {
 
 	return ( $resultado == 1 );
 }
+
+function tratar_foto ( $foto ) {
+
+	if ( $foto['type'] == 'image/gif' OR $foto['type'] == 'image/jpeg' OR $foto['type'] == 'image/pjpeg' 
+		OR $foto['type'] == 'image/png') {
+
+		move_uploaded_file ( $foto['tmp_name'], "fotos/{$foto['name']}" );
+		return true;		
+	} else {
+		return false;
+	}
+	
+}

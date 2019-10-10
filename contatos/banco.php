@@ -92,3 +92,51 @@ function remover_contato ( $conexao, $id ) {
 	mysqli_query ( $conexao, $sqlRemover );
 	
 }
+
+function gravar_foto ( $conexao, $foto ) {
+
+	$sqlGravar = "
+		INSERT INTO fotos
+		(contato_id, nome, arquivo)
+		VALUES
+		(
+			{$foto['contato_id']},
+			'{$foto['nome']}',
+			'{$foto['arquivo']}'
+		)
+	";
+
+	mysqli_query ( $conexao, $sqlGravar );
+}
+
+function buscar_fotos ( $conexao, $contato_id ) {
+
+	$sqlBusca = "SELECT * FROM fotos WHERE contato_id = {$contato_id}";
+	$resultado = mysqli_query ( $conexao, $sqlBusca );
+
+	$fotos = [];
+
+	while ( $foto = mysqli_fetch_assoc ( $resultado ) ) {
+		$fotos[] = $foto;
+	}
+
+	return $fotos;
+}
+
+function buscar_foto ( $conexao, $id ) {
+
+	$sqlBusca = "SELECT * FROM fotos WHERE id = {$id}";
+
+	$resultado = mysqli_query ( $conexao, $sqlBusca );
+
+	return mysqli_fetch_assoc ( $resultado );
+
+}
+
+function remover_foto ( $conexao, $id ) {
+
+	$sqlRemover = "DELETE FROM fotos WHERE id = {$id}";
+
+	mysqli_query ( $conexao, $sqlRemover );
+	
+}
