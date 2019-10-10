@@ -27,6 +27,9 @@
 				</a>
 				<a href="remover.php?id=<?= $contato['id'] ?>">
 					Remover
+				</a><br>
+				<a href="enviar_email.php?id=<?= $contato['id'] ?>">
+					Enviar e-mail
 				</a>
 			</td>
 		</tr>

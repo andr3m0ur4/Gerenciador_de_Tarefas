@@ -25,6 +25,9 @@
 				</a>
 				<a href="remover.php?id=<?= $veiculo['id'] ?>">
 					Remover
+				</a><br>
+				<a href="enviar_email.php?id=<?= $veiculo['id'] ?>">
+					Enviar email
 				</a>
 			</td>
 		</tr>

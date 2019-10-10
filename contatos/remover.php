@@ -1,5 +1,6 @@
 <?php 
 
+require 'config.php';
 require 'banco.php';
 
 remover_contato ( $conexao, $_GET['id'] );

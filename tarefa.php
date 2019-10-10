@@ -1,6 +1,7 @@
 <?php
 
-include 'banco.php';
+require 'config.php';
+require 'banco.php';
 include 'ajudantes.php';
 
 $tem_erros = false;

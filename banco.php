@@ -1,11 +1,6 @@
 <?php  
 
-$dbServidor = '127.0.0.1';
-$dbUsuario = 'sistematarefas';
-$dbSenha = 'sistema';
-$dbBanco = 'tarefas';
-
-$conexao = mysqli_connect ( $dbServidor, $dbUsuario, $dbSenha, $dbBanco );
+$conexao = mysqli_connect ( BD_SERVIDOR, BD_USUARIO, BD_SENHA, BD_BANCO );
 
 if ( mysqli_connect_errno ( $conexao ) ) {
 	echo "Problemas para conectar no banco. Erro: ";

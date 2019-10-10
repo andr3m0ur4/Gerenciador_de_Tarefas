@@ -1,5 +1,6 @@
 <?php 
 
+require 'config.php';
 include 'banco.php';
 
 $foto = buscar_foto ( $conexao, $_GET['id'] );
