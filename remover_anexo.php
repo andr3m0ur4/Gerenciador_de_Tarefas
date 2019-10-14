@@ -2,9 +2,12 @@
 
 require 'config.php';
 require 'banco.php';
+require 'classes/Anexo.php';
+require 'classes/RepositorioTarefas.php';
 
-$anexo = buscar_anexo ( $conexao, $_GET['id'] );
-remover_anexo ( $conexao, $anexo['id'] );
-unlink ( 'anexos/' . $anexo['arquivo'] );
+$repositorio_tarefas = new RepositorioTarefas ( $conexao );
+$anexo = $repositorio_tarefas -> buscar_anexo ( $_GET['id'] );
+$repositorio_tarefas -> remover_anexo ( $anexo -> getId ( ) );
+unlink ( 'anexos/' . $anexo -> getArquivo ( ) );
 
-header ( 'Location: tarefa.php?id=' . $anexo['tarefa_id'] );
+header ( 'Location: tarefa.php?id=' . $anexo -> getTarefaId ( ) );

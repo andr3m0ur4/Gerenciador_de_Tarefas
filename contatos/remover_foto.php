@@ -2,9 +2,13 @@
 
 require 'config.php';
 include 'banco.php';
+require 'classes/Foto.php';
+require 'classes/RepositorioContatos.php';
 
-$foto = buscar_foto ( $conexao, $_GET['id'] );
-remover_foto ( $conexao, $foto['id'] );
-unlink ( 'fotos/' . $foto['arquivo'] );
+$repositorio_contatos = new RepositorioContatos ( $conexao );
 
-header ( 'Location: contato.php?id=' . $foto['contato_id'] );
+$foto = $repositorio_contatos -> buscar_foto ( $_GET['id'] );
+$repositorio_contatos -> remover_foto ( $foto -> getId ( ) );
+unlink ( 'fotos/' . $foto -> getArquivo ( ) );
+
+header ( 'Location: contato.php?id=' . $foto -> getContatoId ( ) );

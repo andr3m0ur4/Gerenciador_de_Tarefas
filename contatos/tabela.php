@@ -9,26 +9,26 @@
 		<th>Opções</th>
 	</tr>
 
-	<?php foreach ( $lista_contatos as $contato ) : ?>
+	<?php foreach ( $contatos as $contato ) : ?>
 		<tr>
 			<td>
-				<a href="contato.php?id=<?=$contato['id']?>">
-					<?= $contato['nome'] ?>
+				<a href="contato.php?id=<?= $contato -> getId ( ) ?>">
+					<?= $contato -> getNome ( ) ?>
 				</a>
 			</td>
-			<td><?= $contato['telefone'] ?></td>
-			<td><?= $contato['email'] ?></td>
-			<td><?= $contato['descricao'] ?></td>
-			<td><?= traduz_data_para_exibir ( $contato['data_nascimento'] ) ?></td>
-			<td><?= traduz_favorito ( $contato['favorito'] ) ?></td>
+			<td><?= $contato -> getTelefone ( ) ?></td>
+			<td><?= $contato -> getEmail ( ) ?></td>
+			<td><?= $contato -> getDescricao ( ) ?></td>
+			<td><?= traduz_data_para_exibir ( $contato -> getDataNascimento ( ) ) ?></td>
+			<td><?= traduz_favorito ( $contato -> getFavorito ( ) ) ?></td>
 			<td>
-				<a href="editar.php?id=<?= $contato['id'] ?>">
+				<a href="editar.php?id=<?= $contato -> getId ( ) ?>">
 					Editar
 				</a>
-				<a href="remover.php?id=<?= $contato['id'] ?>">
+				<a href="remover.php?id=<?= $contato -> getId ( ) ?>">
 					Remover
 				</a><br>
-				<a href="enviar_email.php?id=<?= $contato['id'] ?>">
+				<a href="enviar_email.php?id=<?= $contato -> getId ( ) ?>">
 					Enviar e-mail
 				</a>
 			</td>

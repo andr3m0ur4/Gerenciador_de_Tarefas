@@ -69,7 +69,7 @@ function tratar_foto ( $foto ) {
 	
 }
 
-function enviar_email ( $veiculo, $fotos = [] ) {
+function enviar_email ( $veiculo ) {
 
 	// Acessar a aplicação de e-mails;
 	require '../bibliotecas/PHPMailer/PHPMailerAutoload.php';
@@ -93,19 +93,19 @@ function enviar_email ( $veiculo, $fotos = [] ) {
 	$email -> addAddress ( EMAIL_NOTIFICACAO );
 
 	// Digitar o assunto do	e-mail;
-	$email -> Subject = "Notificador de veículo: {$veiculo['placa']}";
+	$email -> Subject = "Notificador de veículo: {$veiculo -> getPlaca ( )}";
 
 	// Escrever	o corpo	do e-mail;
-	$corpo = preparar_corpo_email ( $veiculo, $fotos );
+	$corpo = preparar_corpo_email ( $veiculo );
 	$email -> msgHTML ( $corpo );
 
 	// Adicionar os	anexos,	quando necessário;
-	if ( !empty ( $fotos['foto_entrada'] ) ) {
-		$email -> addAttachment ( "fotos/{$fotos['foto_entrada']}" );
+	if ( !empty ( $veiculo -> getFotoEntrada ( ) ) ) {
+		$email -> addAttachment ( "fotos/{$veiculo -> getFotoEntrada ( )}" );
 	}
 
-	if ( !empty ( $fotos['foto_saida'] ) ) {
-		$email -> addAttachment ( "fotos/{$fotos['foto_saida']}" );
+	if ( !empty ( $veiculo -> getFotoSaida ( ) ) ) {
+		$email -> addAttachment ( "fotos/{$veiculo -> getFotoSaida ( )}" );
 	}
 
 	// Usar	a opção	de enviar o	e-mail.
@@ -116,7 +116,7 @@ function enviar_email ( $veiculo, $fotos = [] ) {
 
 }
 
-function preparar_corpo_email ( $veiculo, $fotos ) {
+function preparar_corpo_email ( $veiculo ) {
 
 	// Aqui vamos pegar o conteúdo processado do arquivo template_email.php
 

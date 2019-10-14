@@ -40,6 +40,24 @@ function traduz_data_para_banco ( $data ) {
 
 }
 
+function traduz_data_br_para_objeto ( $data ) {
+
+	if ( $data == '' ) {
+		return '';
+	}
+
+	$dados = explode ( '/', $data );
+
+	if ( count ( $dados ) != 3 ) {
+		return $data;
+	}
+
+	$objeto_data = DateTime::createFromFormat ( 'd/m/Y', $data );
+
+	return $objeto_data -> format ( 'Y-m-d' );
+
+}
+
 function traduz_data_para_exibir ( $data ) {
 
 	if ( $data == '' OR $data == '0000-00-00' ) {
@@ -114,7 +132,7 @@ function tratar_anexo ( $anexo ) {
 	
 }
 
-function enviar_email ( $tarefa, $anexos = [] ) {
+function enviar_email ( Tarefa $tarefa ) {
 
 	// Acessar a aplicação de e-mails;
 	require 'bibliotecas/PHPMailer/PHPMailerAutoload.php';
@@ -137,15 +155,15 @@ function enviar_email ( $tarefa, $anexos = [] ) {
 	$email -> addAddress ( EMAIL_NOTIFICACAO );
 
 	// Digitar o assunto do	e-mail;
-	$email -> Subject = "Aviso de tarefa: {$tarefa['nome']}";
+	$email -> Subject = "Aviso de tarefa: {$tarefa -> getNome ( )}";
 
 	// Escrever	o corpo	do e-mail;
-	$corpo = preparar_corpo_email ( $tarefa, $anexos );
+	$corpo = preparar_corpo_email ( $tarefa );
 	$email -> msgHTML ( $corpo );
 
 	// Adicionar os	anexos,	quando necessário;
-	foreach ( $anexos as $anexo ) {
-		$email -> addAttachment ( "anexos/{$anexo['arquivo']}" );
+	foreach ( $tarefa -> getAnexos ( ) as $anexo ) {
+		$email -> addAttachment ( "anexos/{$anexo -> getArquivo ( )}" );
 	}
 
 	// Usar	a opção	de enviar o	e-mail.
@@ -156,7 +174,7 @@ function enviar_email ( $tarefa, $anexos = [] ) {
 
 }
 
-function preparar_corpo_email ( $tarefa, $anexos ) {
+function preparar_corpo_email ( $tarefa ) {
 
 	// Aqui vamos pegar o conteúdo processado do arquivo template_email.php
 

@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<div class="bloco_principal">
-			<h1>Veículo: <?= $veiculo['placa'] ?></h1>
+			<h1>Veículo: <?= $veiculo -> getPlaca ( ) ?></h1>
 			<p>
 				<a href="veiculos.php">
 					Voltar para a lista de veículos
@@ -16,26 +16,26 @@
 
 			<p>
 				<strong>Marca:</strong>
-				<?= $veiculo['marca'] ?>
+				<?= $veiculo -> getMarca ( ) ?>
 			</p>
 			<p>
 				<strong>Modelo:</strong>
-				<?= $veiculo['modelo'] ?>
+				<?= $veiculo -> getModelo ( ) ?>
 			</p>
 			<p>
 				<strong>Hora da entrada:</strong>
-				<?= traduz_hora_para_exibir ( $veiculo['hora_entrada'] ) ?>
+				<?= traduz_hora_para_exibir ( $veiculo -> getHoraEntrada ( ) ) ?>
 			</p>
 			<p>
 				<strong>Hora da saída:</strong>
-				<?= traduz_hora_para_exibir ( $veiculo['hora_saida'] ) ?>
+				<?= traduz_hora_para_exibir ( $veiculo -> getHoraSaida ( ) ) ?>
 			</p>
 
 			<h2>Fotos</h2>
 
 			<!-- lista de fotos -->
 
-			<?php if ( !empty ( $foto_entrada ) OR !empty ( $foto_saida ) ) : ?>
+			<?php if ( !empty ( $veiculo -> getFotoEntrada ( ) ) OR !empty ( $veiculo -> getFotoSaida ( ) ) ) : ?>
 				<table>
 					<tr>
 						<th>Foto de entrada</th>
@@ -45,13 +45,13 @@
 					</tr>
 					
 					<tr>
-						<?php if ( !empty ( $foto_entrada ) ) : ?>
-							<td><?= $foto_entrada ?></td>
+						<?php if ( !empty ( $veiculo -> getFotoEntrada ( ) ) ) : ?>
+							<td><?= $veiculo -> getFotoEntrada ( ) ?></td>
 							<td>
-								<a href="fotos/<?= $foto_entrada ?>">
+								<a href="fotos/<?= $veiculo -> getFotoEntrada ( ) ?>">
 									Visualizar
 								</a>
-								<a href="remover_foto.php?id=<?= $veiculo['id'] ?>&entrada">
+								<a href="remover_foto.php?id=<?= $veiculo -> getId ( ) ?>&entrada">
 									Remover
 								</a>
 							</td>
@@ -59,13 +59,13 @@
 							<td></td>
 							<td></td>
 						<?php endif; ?>
-						<?php if ( !empty ( $foto_saida ) ) : ?>
-							<td><?= $foto_saida ?></td>
+						<?php if ( !empty ( $veiculo -> getFotoSaida ( ) ) ) : ?>
+							<td><?= $veiculo -> getFotoSaida ( ) ?></td>
 							<td>
-								<a href="fotos/<?= $foto_saida ?>">
+								<a href="fotos/<?= $veiculo -> getFotoSaida ( ) ?>">
 									Visualizar
 								</a>
-								<a href="remover_foto.php?id=<?= $veiculo['id'] ?>&saida">
+								<a href="remover_foto.php?id=<?= $veiculo -> getId ( ) ?>&saida">
 									Remover
 								</a>
 							</td>
@@ -85,9 +85,9 @@
 				<fieldset>
 					<legend>Nova foto</legend>
 
-					<input type="hidden" name="id" value="<?= $veiculo['id'] ?>">
-					<input type="hidden" name="foto_entrada" value="<?= $veiculo['foto_entrada'] ?>">
-					<input type="hidden" name="foto_saida" value="<?= $veiculo['foto_saida'] ?>">
+					<input type="hidden" name="id" value="<?= $veiculo -> getId ( ) ?>">
+					<input type="hidden" name="foto_entrada" value="<?= $veiculo -> getFotoEntrada ( ) ?>">
+					<input type="hidden" name="foto_saida" value="<?= $veiculo -> getFotoSaida ( ) ?>">
 
 					<label>
 						Foto da entrada:<br>
@@ -108,6 +108,12 @@
 							</span>
 						<?php endif; ?>
 					</label>
+					<br>
+					<?php if ( $tem_erros AND isset ( $erros_validacao['foto'] ) ) : ?>
+						<span class="erro">
+							<?php echo $erros_validacao['foto']; ?>
+						</span>
+					<?php endif; ?>
 
 					<input type="submit" value="Cadastrar">
 				</fieldset>

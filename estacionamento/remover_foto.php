@@ -1,16 +1,20 @@
 <?php 
 
 require 'config.php';
-include 'banco.php';
+require 'banco.php';
+require 'classes/Veiculo.php';
+require 'classes/RepositorioVeiculos.php';
+
+$repositorio_veiculos = new RepositorioVeiculos ( $conexao );
 
 if ( isset ( $_GET['entrada'] ) ) {
-	$foto = buscar_foto ( $conexao, $_GET['id'], 'foto_entrada' );
-	remover_foto_entrada ( $conexao, $foto['id'] );
-	unlink ( 'fotos/' . $foto['foto_entrada'] );
+	$veiculo = $repositorio_veiculos -> buscar_foto ( $_GET['id'], 'foto_entrada' );
+	$repositorio_veiculos -> remover_foto_entrada ( $veiculo -> getId ( ) );
+	unlink ( 'fotos/' . $veiculo -> getFotoEntrada ( ) );
 } else if ( isset ( $_GET['saida'] ) ) {
-	$foto = buscar_foto ( $conexao, $_GET['id'], 'foto_saida' );
-	remover_foto_saida ( $conexao, $foto['id'] );
-	unlink ( 'fotos/' . $foto['foto_saida'] );
+	$veiculo = $repositorio_veiculos -> buscar_foto ( $_GET['id'], 'foto_saida' );
+	$repositorio_veiculos -> remover_foto_saida ( $veiculo -> getId ( ) );
+	unlink ( 'fotos/' . $veiculo -> getFotoSaida ( ) );
 }
 
-header ( 'Location: veiculo.php?id=' . $foto['id'] );
+header ( 'Location: veiculo.php?id=' . $veiculo -> getId ( ) );

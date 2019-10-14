@@ -1,5 +1,5 @@
 <form method="POST">
-	<input type="hidden" name="id" value="<?= $contato['id'] ?>">
+	<input type="hidden" name="id" value="<?= $contato -> getId ( ) ?>">
 	<fieldset>
 		<legend>Nova contato</legend>
 		<label>
@@ -9,7 +9,7 @@
 					<?= $erros_validacao['nome'] ?>
 				</span>
 			<?php endif; ?>
-			<input type="text" name="nome" value="<?= $contato['nome'] ?>">
+			<input type="text" name="nome" value="<?= $contato -> getNome ( ) ?>">
 		</label>
 		<label>
 			Telefone:
@@ -18,7 +18,7 @@
 					<?= $erros_validacao['telefone'] ?>
 				</span>
 			<?php endif; ?>
-			<input type="tel" name="telefone" value="<?= $contato['telefone'] ?>">
+			<input type="tel" name="telefone" value="<?= $contato -> getTelefone ( ) ?>">
 		</label>
 		<label>
 			Email:
@@ -27,15 +27,15 @@
 					<?= $erros_validacao['email'] ?>
 				</span>
 			<?php endif; ?>
-			<input type="email" name="email" value="<?= $contato['email'] ?>">
+			<input type="email" name="email" value="<?= $contato -> getEmail ( ) ?>">
 		</label>
 		<label>
 			Descrição (Opcional):
-			<textarea name="descricao"><?= $contato['descricao'] ?></textarea>
+			<textarea name="descricao"><?= $contato -> getDescricao ( ) ?></textarea>
 		</label>
 		<label>
 			Data de nascimento:
-			<input type="date" name="data" value="<?= $contato['data_nascimento'] ?>">
+			<input type="date" name="data" value="<?= $contato -> getDataNascimento ( ) ?>">
 			<?php if ( $tem_erros AND isset ( $erros_validacao['data'] ) ) : ?>
 				<span class="erro">
 					<?= $erros_validacao['data'] ?>
@@ -45,8 +45,8 @@
 		<label>
 			Contato favorito:
 			<input type="checkbox" name="favorito" value="1"
-				<?php echo ( $contato['favorito'] == 1 ) ? 'checked' : ''; ?> >
+				<?php echo ( $contato -> getFavorito ( ) == true ) ? 'checked' : ''; ?> >
 		</label>
-		<input type="submit" value="<?php echo ( $contato['id'] > 0 ) ? 'Atualizar' : 'Cadastrar'; ?>">
+		<input type="submit" value="<?php echo ( $contato -> getId ( ) > 0 ) ? 'Atualizar' : 'Cadastrar'; ?>">
 	</fieldset>
 </form>

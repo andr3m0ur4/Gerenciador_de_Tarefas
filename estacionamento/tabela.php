@@ -8,25 +8,25 @@
 		<th>Opções</th>
 	</tr>
 
-	<?php foreach ( $lista_veiculos as $veiculo ) : ?>
+	<?php foreach ( $veiculos as $veiculo ) : ?>
 		<tr>
 			<td>
-				<a href="veiculo.php?id=<?= $veiculo['id'] ?>">
-					<?= $veiculo['placa'] ?>
+				<a href="veiculo.php?id=<?= $veiculo -> getId ( ) ?>">
+					<?= $veiculo -> getPlaca ( ) ?>
 				</a>
 			</td>
-			<td><?= $veiculo['marca'] ?></td>
-			<td><?= $veiculo['modelo'] ?></td>
-			<td><?= traduz_hora_para_exibir ( $veiculo['hora_entrada'] ) ?></td>
-			<td><?= traduz_hora_para_exibir ( $veiculo['hora_saida'] ) ?></td>
+			<td><?= $veiculo -> getMarca ( ) ?></td>
+			<td><?= $veiculo -> getModelo ( ) ?></td>
+			<td><?= traduz_hora_para_exibir ( $veiculo -> getHoraEntrada ( ) ) ?></td>
+			<td><?= traduz_hora_para_exibir ( $veiculo -> getHoraSaida ( ) ) ?></td>
 			<td>
-				<a href="editar.php?id=<?= $veiculo['id'] ?>">
+				<a href="editar.php?id=<?= $veiculo -> getId ( ) ?>">
 					Editar
 				</a>
-				<a href="remover.php?id=<?= $veiculo['id'] ?>">
+				<a href="remover.php?id=<?= $veiculo -> getId ( ) ?>">
 					Remover
 				</a><br>
-				<a href="enviar_email.php?id=<?= $veiculo['id'] ?>">
+				<a href="enviar_email.php?id=<?= $veiculo -> getId ( ) ?>">
 					Enviar email
 				</a>
 			</td>

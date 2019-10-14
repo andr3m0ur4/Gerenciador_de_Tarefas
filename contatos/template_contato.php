@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<div class="bloco_principal">
-			<h1>Contato: <?= $contato['nome'] ?></h1>
+			<h1>Contato: <?= $contato -> getNome ( ) ?></h1>
 			<p>
 				<a href="contatos.php">
 					Voltar para a lista de contatos
@@ -16,44 +16,44 @@
 
 			<p>
 				<strong>Telefone:</strong>
-				<?= $contato['telefone'] ?>
+				<?= $contato -> getTelefone ( ) ?>
 			</p>
 			<p>
 				<strong>Email:</strong>
-				<?= $contato['email'] ?>
+				<?= $contato -> getEmail ( ) ?>
 			</p>
 			<p>
 				<strong>Descrição:</strong>
-				<?= nl2br ( $contato['descricao'] ) ?>
+				<?= nl2br ( $contato -> getDescricao ( ) ) ?>
 			</p>
 			<p>
 				<strong>Data de nascimento:</strong>
-				<?= traduz_data_para_exibir ( $contato['data_nascimento'] ) ?>
+				<?= traduz_data_para_exibir ( $contato -> getDataNascimento ( ) ) ?>
 			</p>
 			<p>
 				<strong>Favorito:</strong>
-				<?= traduz_favorito ( $contato['favorito'] ) ?>
+				<?= traduz_favorito ( $contato -> getFavorito ( ) ) ?>
 			</p>
 
 			<h2>Fotos</h2>
 
 			<!-- lista de fotos -->
 
-			<?php if ( count ( $fotos ) > 0 ) : ?>
+			<?php if ( count ( $contato -> getFotos ( ) ) > 0 ) : ?>
 				<table>
 					<tr>
 						<th>Foto</th>
 						<th>Opções</th>
 					</tr>
 
-					<?php foreach ( $fotos as $foto ) : ?>
+					<?php foreach ( $contato -> getfotos ( ) as $foto ) : ?>
 						<tr>
-							<td><?= $foto['nome'] ?></td>
+							<td><?= $foto -> getNome ( ) ?></td>
 							<td>
-								<a href="fotos/<?= $foto['arquivo'] ?>">
+								<a href="fotos/<?= $foto -> getArquivo ( ) ?>">
 									Visualizar
 								</a>
-								<a href="remover_foto.php?id=<?= $foto['id'] ?>">
+								<a href="remover_foto.php?id=<?= $foto -> getId ( ) ?>">
 									Remover
 								</a>
 							</td>
@@ -70,7 +70,7 @@
 				<fieldset>
 					<legend>Nova foto</legend>
 
-					<input type="hidden" name="contato_id" value="<?= $contato['id'] ?>">
+					<input type="hidden" name="contato_id" value="<?= $contato -> getId ( ) ?>">
 
 					<label>
 						<?php if ( $tem_erros AND isset ( $erros_validacao['foto'] ) ) : ?>

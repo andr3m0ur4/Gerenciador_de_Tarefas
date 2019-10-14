@@ -3,47 +3,53 @@
 require 'config.php';
 require 'banco.php';
 require 'ajudantes.php';
+require 'classes/Contato.php';
+require 'classes/Foto.php';
+require 'classes/RepositorioContatos.php';
+
+$repositorio_contatos = new RepositorioContatos ( $conexao );
 
 $exibir_tabela = true;
 
 $tem_erros = false;
 $erros_validacao = [];
 
-if ( tem_post ( ) ) {
-	$contato = [];
+$contato = new Contato ( );
 
-	$contato['nome'] = $_POST['nome'] ?? '';
-	if ( empty ( $contato['nome'] ) ) {
+if ( tem_post ( ) ) {
+	
+	$contato -> setNome ( $_POST['nome'] ?? '' );
+	if ( empty ( $contato -> getNome ( ) ) ) {
 		$tem_erros = true;
 		$erros_validacao['nome'] = 'O nome do contato é obrigatório!';
 	}
 
-	$contato['telefone'] = $_POST['telefone'] ?? '';
-	if ( empty ( $contato['telefone'] ) ) {
+	$contato -> setTelefone ( $_POST['telefone'] ?? '' );
+	if ( empty ( $contato -> getTelefone ( ) ) ) {
 		$tem_erros = true;
 		$erros_validacao['telefone'] = 'O telefone do contato é obrigatório!';
-	} else if ( !validar_telefone ( $contato['telefone'] ) ) {
+	} else if ( !validar_telefone ( $contato -> getTelefone ( ) ) ) {
 		$tem_erros = true;
 		$erros_validacao['telefone'] = 'O telefone do contato não é válido!';
 	}
 
-	$contato['email'] = $_POST['email'] ?? '';
-	if ( empty ( $contato['email'] ) ) {
+	$contato -> setEmail ( $_POST['email'] ?? '' );
+	if ( empty ( $contato -> getEmail ( ) ) ) {
 		$tem_erros = true;
 		$erros_validacao['email'] = 'O email do contato é obrigatório!';
 	}
 
-	$contato['descricao'] = $_POST['descricao'] ?? '';
-	$contato['data'] = $_POST['data'] ?? '';
-	if ( !empty ( $contato['data'] ) AND !validar_data ( $contato['data'] ) ) {
+	$contato -> setDescricao ( $_POST['descricao'] ?? '' );
+	$contato -> setDataNascimento ( $_POST['data'] ?? '' );
+	if ( !empty ( $contato -> getDataNascimento ( ) ) AND !validar_data ( $contato -> getDataNascimento ( ) ) ) {
 		$tem_erros = true;
 		$erros_validacao['data'] = 'A data de nascimento não é uma data válida!';
 	}
 
-	$contato['favorito'] = isset ( $_POST['favorito'] ) ? 1 : 0;
+	$contato -> setFavorito ( isset ( $_POST['favorito'] ) ? true : false );
 
 	if ( !$tem_erros ) {
-		gravar_contato ( $conexao, $contato );
+		$repositorio_contatos -> salvar ( $contato );
 
 		header ( 'Location: contatos.php' );
 		die ( );
@@ -52,19 +58,9 @@ if ( tem_post ( ) ) {
 }
 
 if ( !isset ( $_GET['favoritos'] ) ) {
-	$lista_contatos = buscar_contatos ( $conexao );
+	$contatos = $repositorio_contatos -> buscar ( );
 } else {
-	$lista_contatos = buscar_contatos_favoritos ( $conexao );
+	$contatos = $repositorio_contatos -> buscar ( null, 1 );
 }
-
-$contato = [
-	'id' => 0,
-	'nome' => $_POST['nome'] ?? '',
-	'telefone' => $_POST['telefone'] ?? '',
-	'email' => $_POST['email'] ?? '',
-	'descricao' => $_POST['descricao'] ?? '',
-	'data_nascimento' => $_POST['data'] ?? '',
-	'favorito' => $_POST['favorito'] ?? ''
-];
 
 include 'template.php';

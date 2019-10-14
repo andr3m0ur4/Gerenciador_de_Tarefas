@@ -1,23 +1,23 @@
-<h1>Veículo: <?= $veiculo['placa'] ?></h1>
+<h1>Veículo: <?= $veiculo -> getPlaca ( ) ?></h1>
 
 <p>
 	<strong>Marca:</strong>
-	<?= $veiculo['marca'] ?>
+	<?= $veiculo -> getMarca ( ) ?>
 </p>
 <p>
 	<strong>Modelo:</strong>
-	<?= $veiculo['modelo'] ?>
+	<?= $veiculo -> getModelo ( ) ?>
 </p>
 <p>
 	<strong>Hora da entrada:</strong>
-	<?= traduz_hora_para_exibir ( $veiculo['hora_entrada'] ) ?>
+	<?= traduz_hora_para_exibir ( $veiculo -> getHoraEntrada ( ) ) ?>
 </p>
 <p>
 	<strong>Hora da saída:</strong>
-	<?= traduz_hora_para_exibir ( $veiculo['hora_saida'] ) ?>
+	<?= traduz_hora_para_exibir ( $veiculo -> getHoraSaida ( ) ) ?>
 </p>
 
-<?php if ( !empty ( $veiculo['foto_entrada'] ) OR !empty ( $veiculo['foto_saida'] ) ) : ?>
+<?php if ( !empty ( $veiculo -> getFotoEntrada ( ) ) OR !empty ( $veiculo -> getFotoSaida ( ) ) ) : ?>
 	<p><strong>Atenção!</strong> Este veículo contém fotos!</p>
 <?php endif; ?>
 

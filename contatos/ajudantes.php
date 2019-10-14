@@ -82,7 +82,7 @@ function tratar_foto ( $foto ) {
 	
 }
 
-function enviar_email ( $contato, $fotos = [] ) {
+function enviar_email ( $contato ) {
 
 	// Acessar a aplicação de e-mails;
 	require '../bibliotecas/PHPMailer/PHPMailerAutoload.php';
@@ -106,15 +106,15 @@ function enviar_email ( $contato, $fotos = [] ) {
 	$email -> addAddress ( EMAIL_NOTIFICACAO );
 
 	// Digitar o assunto do	e-mail;
-	$email -> Subject = "Notificador de contato: {$contato['nome']}";
+	$email -> Subject = "Notificador de contato: {$contato -> getNome ( )}";
 
 	// Escrever	o corpo	do e-mail;
-	$corpo = preparar_corpo_email ( $contato, $fotos );
+	$corpo = preparar_corpo_email ( $contato );
 	$email -> msgHTML ( $corpo );
 
 	// Adicionar os	anexos,	quando necessário;
-	foreach ( $fotos as $foto ) {
-		$email -> addAttachment ( "fotos/{$foto['arquivo']}" );
+	foreach ( $contato -> getFotos ( ) as $foto ) {
+		$email -> addAttachment ( "fotos/{$foto -> getArquivo ( )}" );
 	}
 
 	// Usar	a opção	de enviar o	e-mail.
@@ -125,7 +125,7 @@ function enviar_email ( $contato, $fotos = [] ) {
 
 }
 
-function preparar_corpo_email ( $contato, $fotos ) {
+function preparar_corpo_email ( $contato ) {
 
 	// Aqui vamos pegar o conteúdo processado do arquivo template_email.php
 
