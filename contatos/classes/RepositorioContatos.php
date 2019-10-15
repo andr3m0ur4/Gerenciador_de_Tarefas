@@ -2,11 +2,11 @@
 
 class RepositorioContatos {
 
-	private $conexao;
+	private $pdo;
 
-	public function __construct ( $conexao ) {
+	public function __construct ( PDO $pdo ) {
 
-		$this -> conexao = $conexao;
+		$this -> pdo = $pdo;
 
 	}
 
@@ -25,11 +25,11 @@ class RepositorioContatos {
 
 		$sqlBusca = 'SELECT * FROM contatos';
 
-		$resultado = $this -> conexao -> query ( $sqlBusca );
+		$resultado = $this -> pdo -> query ( $sqlBusca, PDO::FETCH_CLASS, 'Contato' );
 
 		$contatos = [];
 
-		while ( $contato = $resultado -> fetch_object ( 'Contato' ) ) {
+		foreach ( $resultado as $contato ) {
 			$contato -> setFotos ( $this -> buscar_fotos ( $contato -> getId ( ) ) );
 			$contatos[] = $contato;
 		}
@@ -39,14 +39,16 @@ class RepositorioContatos {
 	}
 
 	private function buscar_contato ( $id ) {
+		
+		$sqlBusca = "SELECT * FROM contatos WHERE id = :id";
 
-		$id = $this -> conexao -> escape_string ( $id );
+		$query = $this -> pdo -> prepare ( $sqlBusca );
 
-		$sqlBusca = "SELECT * FROM contatos WHERE id = {$id}";
+		$query -> execute ([
+			'id' => $id,
+		]);
 
-		$resultado = $this -> conexao -> query ( $sqlBusca );
-
-		$contato = $resultado -> fetch_object ( 'Contato' );
+		$contato = $query -> fetchObject ( 'Contato' );
 
 		$contato -> setFotos ( $this -> buscar_fotos ( $contato -> getId ( ) ) );
 
@@ -58,11 +60,11 @@ class RepositorioContatos {
 
 		$sqlBusca = 'SELECT * FROM contatos WHERE favorito = 1';
 
-		$resultado = $this -> conexao -> query ( $sqlBusca );
+		$resultado = $this -> pdo -> query ( $sqlBusca, PDO::FETCH_CLASS, 'Contato' );
 
 		$contatos = [];
 
-		while ( $contato = $resultado -> fetch_object ( 'Contato' ) ) {
+		foreach ( $resultado as $contato ) {
 			$contato -> setFotos ( $this -> buscar_fotos ( $contato -> getId ( ) ) );
 			$contatos[] = $contato;
 		}
@@ -71,98 +73,99 @@ class RepositorioContatos {
 
 	}
 
-	public function salvar ( $contato ) {
-
-		$nome = strip_tags ( $this -> conexao -> escape_string ( $contato -> getNome ( ) ) );
-		$telefone = strip_tags ( $this -> conexao -> escape_string ( $contato -> getTelefone ( ) ) );
-		$email = strip_tags ( $this -> conexao -> escape_string ( $contato -> getEmail ( ) ) );
-		$descricao = strip_tags ( $this -> conexao -> escape_string ( $contato -> getDescricao ( ) ) );
-		$data_nascimento = $contato -> getDataNascimento ( );
-		$favorito = ( $contato -> getFavorito ( ) ) ? 1 : 0;
-
+	public function salvar ( Contato $contato ) {
+		
 		$sqlGravar = "
 			INSERT INTO contatos
 			(nome, telefone, email, descricao, data_nascimento, favorito)
 			VALUES
-			(
-				'{$nome}',
-				'{$telefone}',
-				'{$email}',
-				'{$descricao}',
-				'{$data_nascimento}',
-				{$favorito}
-			)
+			(:nome, :telefone, :email, :descricao, :data_nascimento, :favorito)
 		";
 
-		$this -> conexao -> query ( $sqlGravar );
+		$query = $this -> pdo -> prepare ( $sqlGravar );
+
+		$query -> execute ([
+			'nome' => strip_tags ( $contato -> getNome ( ) ),
+			'telefone' => strip_tags ( $contato -> getTelefone ( ) ),
+			'email' => strip_tags ( $contato -> getEmail ( ) ),
+			'descricao' => strip_tags ( $contato -> getDescricao ( ) ),
+			'data_nascimento' => $contato -> getDataNascimento ( ),
+			'favorito' => ( $contato -> getFavorito ( ) ) ? 1 : 0,
+		]);
 
 	}
 
-	public function atualizar ( $contato ) {
-
-		$id = $contato -> getId ( );
-		$nome = strip_tags ( $this -> conexao -> escape_string ( $contato -> getNome ( ) ) );
-		$telefone = strip_tags ( $this -> conexao -> escape_string ( $contato -> getTelefone ( ) ) );
-		$email = strip_tags ( $this -> conexao -> escape_string ( $contato -> getEmail ( ) ) );
-		$descricao = strip_tags ( $this -> conexao -> escape_string ( $contato -> getDescricao ( ) ) );
-		$data_nascimento = $contato -> getDataNascimento ( );
-		$favorito = ( $contato -> getFavorito ( ) ) ? 1 : 0;
+	public function atualizar ( Contato $contato ) {
 
 		$sqlEditar = "
 			UPDATE contatos SET
-				nome = '{$nome}',
-				telefone = '{$telefone}',
-				email = '{$email}',
-				descricao = '{$descricao}',
-				data_nascimento = '{$data_nascimento}',
-				favorito = {$favorito}
-			WHERE id = {$id}
+				nome = :nome',
+				telefone = :telefone,
+				email = :email,
+				descricao = :descricao,
+				data_nascimento = :data_nascimento,
+				favorito = :favorito
+			WHERE id = :id
 		";
 
-		$this -> conexao -> query ( $sqlEditar );
+		$query -> $this -> pdo -> prepare ( $sqlEditar );
+
+		$query -> execute ([
+			'nome' => strip_tags ( $contato -> getNome ( ) ),
+			'telefone' => strip_tags ( $contato -> getTelefone ( ) ),
+			'email' => strip_tags ( $contato -> getEmail ( ) ),
+			'descricao' => strip_tags ( $contato -> getDescricao ( ) ),
+			'data_nascimento' => $contato -> getDataNascimento ( ),
+			'favorito' => ( $contato -> getFavorito ( ) ) ? 1 : 0,
+			'id' => $contato -> getId ( ),
+		]);
 
 	}
 
 	public function remover ( $id ) {
+		
+		$sqlRemover = "DELETE FROM contatos WHERE id = :id";
 
-		$id = $this -> conexao -> escape_string ( $id );
+		$query = $this -> pdo -> prepare ( $sqlRemover );
 
-		$sqlRemover = "DELETE FROM contatos WHERE id = {$id}";
+		$query -> execute ([
+			'id' => $id,
+		]);
 
-		$this -> conexao -> query ( $sqlRemover );
 	}
 
 	public function salvar_foto ( Foto $foto ) {
-
-		$nome = strip_tags ( $this -> conexao -> escape_string ( $foto -> getNome ( ) ) );
-		$arquivo = strip_tags ( $this -> conexao -> escape_string ( $foto -> getArquivo ( ) ) );
-
+		
 		$sqlGravar = "
 			INSERT INTO fotos
 			(contato_id, nome, arquivo)
 			VALUES
-			(
-				{$foto -> getContatoId ( )},
-				'{$nome}',
-				'{$arquivo}'
-			)
+			(:contato_id, :nome, :arquivo)
 		";
 
-		$this -> conexao -> query ( $sqlGravar );
+		$query = $this -> pdo -> prepare ( $sqlGravar );
+
+		$query -> execute ([
+			'contato_id' => $foto -> getContatoId ( ),
+			'nome' => strip_tags ( $foto -> getNome ( ) ),
+			'arquivo' => strip_tags ( $foto -> getArquivo ( ) ),
+		]);
 
 	}
 
 	public function buscar_fotos ( $contato_id ) {
+		
+		$sqlBusca = "SELECT * FROM fotos WHERE contato_id = :contato_id";
 
-		$contato_id = $this -> conexao -> escape_string ( $contato_id );
+		$query = $this -> pdo -> prepare ( $sqlBusca );
 
-		$sqlBusca = "SELECT * FROM fotos WHERE contato_id = {$contato_id}";
-
-		$resultado = $this -> conexao -> query ( $sqlBusca );
+		$query -> execute ([
+			'contato_id' => $contato_id,
+		]);
 
 		$fotos = [];
 
-		while ( $foto = $resultado -> fetch_object ( 'Foto' ) ) {
+		while ( $foto = $query -> fetchObject ( 'Foto' ) ) {
 			$fotos[] = $foto;
 		}
 
@@ -171,23 +174,28 @@ class RepositorioContatos {
 	}
 
 	public function buscar_foto ( $id ) {
+		
+		$sqlBusca = "SELECT * FROM fotos WHERE id = :id";
 
-		$id = $this -> conexao -> escape_string ( $id );
+		$query = $this -> pdo -> prepare ( $sqlBusca );
 
-		$sqlBusca = "SELECT * FROM fotos WHERE id = {$id}";
+		$query -> execute ([
+			'id' => $id,
+		]);
 
-		$resultado = $this -> conexao -> query ( $sqlBusca );
+		return $query -> fetchObject ( 'Foto' );
 
-		return $resultado -> fetch_object ( 'Foto' );
 	}
 
 	public function remover_foto ( $id ) {
+		
+		$sqlRemover = "DELETE FROM fotos WHERE id = :id";
 
-		$id = $this -> conexao -> escape_string ( $id );
+		$query = $this -> pdo -> prepare ( $sqlRemover );
 
-		$sqlRemover = "DELETE FROM fotos WHERE id = {$id}";
-
-		$this -> conexao -> query ( $sqlRemover );
+		$query -> execute ([
+			'id' => $id,
+		]);
 
 	}
 }

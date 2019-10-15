@@ -2,10 +2,12 @@
 
 class RepositorioVeiculos {
 
-	private $conexao;
+	private $pdo;
 
-	public function __construct ( $conexao ) {
-		$this -> conexao = $conexao;
+	public function __construct ( PDO $pdo ) {
+
+		$this -> pdo = $pdo;
+
 	}
 
 	public function buscar ( $veiculo_id = 0 ) {
@@ -22,11 +24,11 @@ class RepositorioVeiculos {
 
 		$sqlBusca = 'SELECT * FROM veiculos';
 
-		$resultado = $this -> conexao -> query ( $sqlBusca );
+		$resultado = $this -> pdo -> query ( $sqlBusca, PDO::FETCH_CLASS, 'Veiculo' );
 
 		$veiculos = [];
 
-		while ( $veiculo = $resultado -> fetch_object ( 'Veiculo' ) ) {
+		foreach ( $resultado as $veiculo ) {
 			$veiculos[] = $veiculo;
 		}
 
@@ -35,137 +37,150 @@ class RepositorioVeiculos {
 	}
 
 	private function buscar_veiculo ( $id ) {
+		
+		$sqlBusca = "SELECT * FROM veiculos WHERE id = :id";
 
-		$id = $this -> conexao -> escape_string ( $id );
+		$query = $this -> pdo -> prepare ( $sqlBusca );
 
-		$sqlBusca = "SELECT * FROM veiculos WHERE id = {$id}";
+		$query -> execute ([
+			'id' => $id,
+		]);
 
-		$resultado = $this -> conexao -> query ( $sqlBusca );
-
-		return $resultado -> fetch_object ( 'Veiculo' );
+		return $query -> fetchObject ( 'Veiculo' );
 
 	}
 
 	public function salvar ( Veiculo $veiculo ) {
-
-		$placa = strip_tags ( $this -> conexao -> escape_string ( $veiculo -> getPlaca ( ) ) );
-		$marca = strip_tags ( $this -> conexao -> escape_string ( $veiculo -> getMarca ( ) ) );
-		$modelo = strip_tags ( $this -> conexao -> escape_string ( $veiculo -> getModelo ( ) ) );
-		$hora_entrada = $veiculo -> getHoraEntrada ( );
-		$hora_saida = $veiculo -> getHoraSaida ( );
-
+		
 		$sqlGravar = "
 			INSERT INTO veiculos
 			(placa, marca, modelo, hora_entrada, hora_saida)
 			VALUES
-			(
-				'{$placa}',
-				'{$marca}',
-				'{$modelo}',
-				'{$hora_entrada}',
-				'{$hora_saida}'
-			)
+			(:placa, :marca, :modelo, :hora_entrada, :hora_saida)
 		";
 
-		$this -> conexao -> query ( $sqlGravar );
+		$query = $this -> pdo -> prepare ( $sqlGravar );
+
+		$query -> execute ([
+			'placa' => strip_tags ( $veiculo -> getPlaca ( ) ),
+			'marca' => strip_tags ( $veiculo -> getMarca ( ) ),
+			'modelo' => strip_tags ( $veiculo -> getModelo ( ) ),
+			'hora_entrada' => $veiculo -> getHoraEntrada ( ),
+			'hora_saida' => $veiculo -> getHoraSaida ( ),
+		]);
 
 	}
 
 	public function remover ( $id ) {
+		
+		$sqlRemover = "DELETE FROM veiculos WHERE id = :id";
 
-		$id = $this -> conexao -> escape_string ( $id );
+		$query = $this -> pdo -> prepare ( $sqlRemover );
 
-		$sqlRemover = "DELETE FROM veiculos WHERE id = {$id}";
-
-		$this -> conexao -> query ( $sqlRemover );
+		$query -> execute ([
+			'id' => $id,
+		]);
 
 	}
 
 	public function atualizar ( Veiculo $veiculo ) {
-
-		$id = $veiculo -> getId ( );
-		$placa = strip_tags ( $this -> conexao -> escape_string ( $veiculo -> getPlaca ( ) ) );
-		$marca = strip_tags ( $this -> conexao -> escape_string ( $veiculo -> getMarca ( ) ) );
-		$modelo = strip_tags ( $this -> conexao -> escape_string ( $veiculo -> getModelo ( ) ) );
-		$hora_entrada = $veiculo -> getHoraEntrada ( );
-		$hora_saida = $veiculo -> getHoraSaida ( );
-
+		
 		$sqlEditar = "
 			UPDATE veiculos SET
-				placa = '{$placa}',
-				marca = '{$marca}',
-				modelo = '{$modelo}',
-				hora_entrada = '{$hora_entrada}',
-				hora_saida = '{$hora_saida}'
-			WHERE id = {$id}
+				placa = :placa,
+				marca = :marca,
+				modelo = :modelo,
+				hora_entrada = :hora_entrada,
+				hora_saida = :hora_saida
+			WHERE id = :id
 		";
 
-		$this -> conexao -> query ( $sqlEditar );
+		$query = $this -> pdo -> prepare ( $sqlEditar );
+
+		$query -> execute ([
+			'placa' => strip_tags ( $veiculo -> getPlaca ( ) ),
+			'marca' => strip_tags ( $veiculo -> getMarca ( ) ),
+			'modelo' => strip_tags ( $veiculo -> getModelo ( ) ),
+			'hora_entrada' => $veiculo -> getHoraEntrada ( ),
+			'hora_saida' => $veiculo -> getHoraSaida ( ),
+			'id' => $veiculo -> getId ( ),
+		]);
 
 	}
 
 	public function salvar_foto ( Veiculo $foto ) {
 
-		$id = $foto -> getId ( );
-		$foto_entrada = strip_tags ( $this -> conexao -> escape_string ( $foto -> getFotoEntrada ( ) ) );
-		$foto_saida = strip_tags ( $this -> conexao -> escape_string ( $foto -> getFotoSaida ( ) ) );
-
 		$sqlEditar = "
 			UPDATE veiculos SET
-				foto_entrada = '{$foto_entrada}',
-				foto_saida = '{$foto_saida}'
-			WHERE id = {$id}
+				foto_entrada = :foto_entrada,
+				foto_saida = :foto_saida
+			WHERE id = :id
 		";
 
-		$this -> conexao -> query ( $sqlEditar );
+		$query = $this -> pdo -> prepare ( $sqlEditar );
+
+		$query -> execute ([
+			'foto_entrada' => strip_tags ( $foto -> getFotoEntrada ( ) ),
+			'foto_saida' => strip_tags ( $foto -> getFotoSaida ( ) ),
+			'id' => $foto -> getId ( ),
+		]);
 
 	}
 
 	public function buscar_fotos ( $id ) {
+		
+		$sqlBusca = "SELECT foto_entrada, foto_saida FROM veiculos WHERE id = :id";
 
-		$id = $this -> conexao -> escape_string ( $id );
+		$query = $this -> pdo -> prepare ( $sqlBusca );
 
-		$sqlBusca = "SELECT foto_entrada, foto_saida FROM veiculos WHERE id = {$id}";
+		$query -> execute ([
+			'id' => $id,
+		]);
 
-		$resultado = $this -> conexao -> query ( $sqlBusca );
-
-		return $resultado -> fetch_object ( 'Veiculo' );
+		return $query -> fetchObject ( 'Veiculo' );
 
 	}
 
 	public function buscar_foto ( $id, $horario ) {
+		
+		$sqlBusca = "SELECT id, :horario FROM veiculos WHERE id = :id";
 
-		$id = $this -> conexao -> escape_string ( $id );
+		$query = $this -> pdo -> prepare ( $sqlBusca );
 
-		$sqlBusca = "SELECT id, $horario FROM veiculos WHERE id = {$id}";
+		$query -> execute ([
+			':horario' => $horario,
+			'id' => $id,
+		]);
 
-		$resultado = $this -> conexao -> query ( $sqlBusca );
-
-		return $resultado -> fetch_object ( 'Veiculo' );
+		return $query -> fetchObject ( 'Veiculo' );
 
 	}
 
 	public function remover_foto_entrada ( $id ) {
-
-		$id = $this -> conexao -> escape_string ( $id );
-
+		
 		$sqlEditar = "UPDATE veiculos SET
 			foto_entrada = ''
-		WHERE id = {$id}";
+		WHERE id = :id";
 
-		$this -> conexao -> query ( $sqlEditar );
+		$query = $this -> pdo -> prepare ( $sqlEditar );
+
+		$query -> execute ([
+			'id' => $id,
+		]);
 
 	}
 
 	public function remover_foto_saida ( $id ) {
-
-		$id = $this -> conexao -> escape_string ( $id );
-
+		
 		$sqlEditar = "UPDATE veiculos SET
 			foto_saida = ''
-		WHERE id = {$id}";
+		WHERE id = :id";
 
-		$this -> conexao -> query ( $sqlEditar );
+		$query = $this -> pdo -> prepare ( $sqlEditar );
+
+		$query -> execute ([
+			'id' => $id,
+		]);
 		
 	}
 }

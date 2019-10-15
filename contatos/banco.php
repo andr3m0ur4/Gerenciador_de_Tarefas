@@ -1,9 +1,8 @@
 <?php  
 
-$conexao = mysqli_connect ( BD_SERVIDOR, BD_USUARIO, BD_SENHA, BD_BANCO );
-
-if ( mysqli_connect_errno ( $conexao ) ) {
-	echo "Problemas para conectar no banco. Erro: ";
-	echo mysqli_connect_error ( );
+try {
+	$pdo = new PDO ( BD_DSN, BD_USUARIO, BD_SENHA );
+} catch ( PDOException $e ) {
+	echo "Falha na conexão com o banco de dados: " . $e -> getMessage ( );
 	die ( );
 }

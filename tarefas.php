@@ -7,7 +7,7 @@ require 'classes/Tarefa.php';
 require 'classes/Anexo.php';
 require 'classes/RepositorioTarefas.php';
 
-$repositorio_tarefas = new RepositorioTarefas ( $conexao );
+$repositorio_tarefas = new RepositorioTarefas ( $pdo );
 
 $exibir_tabela = true;
 

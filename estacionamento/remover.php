@@ -5,7 +5,7 @@ require 'banco.php';
 require 'classes/Veiculo.php';
 require 'classes/RepositorioVeiculos.php';
 
-$repositorio_veiculos = new RepositorioVeiculos ( $conexao );
+$repositorio_veiculos = new RepositorioVeiculos ( $pdo );
 
 $repositorio_veiculos -> remover ( $_GET['id'] );
 
