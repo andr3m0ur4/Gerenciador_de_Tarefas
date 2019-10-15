@@ -48,9 +48,4 @@ if ( tem_post ( ) ) {
 	}
 }
 
-/*$veiculo = buscar_veiculo ( $conexao, $_GET['id'] );
-$fotos = buscar_fotos ( $conexao, $_GET['id'] );
-$foto_entrada = $fotos['foto_entrada'];
-$foto_saida = $fotos['foto_saida'];*/
-
 include 'template_veiculo.php';

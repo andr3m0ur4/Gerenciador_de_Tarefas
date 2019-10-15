@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<div class="bloco_principal">
-			<h1>Contato: <?= $contato -> getNome ( ) ?></h1>
+			<h1>Contato: <?= htmlentities ( $contato -> getNome ( ) ) ?></h1>
 			<p>
 				<a href="contatos.php">
 					Voltar para a lista de contatos
@@ -16,15 +16,15 @@
 
 			<p>
 				<strong>Telefone:</strong>
-				<?= $contato -> getTelefone ( ) ?>
+				<?= htmlentities ( $contato -> getTelefone ( ) ) ?>
 			</p>
 			<p>
 				<strong>Email:</strong>
-				<?= $contato -> getEmail ( ) ?>
+				<?= htmlentities ( $contato -> getEmail ( ) ) ?>
 			</p>
 			<p>
 				<strong>Descrição:</strong>
-				<?= nl2br ( $contato -> getDescricao ( ) ) ?>
+				<?= nl2br ( htmlentities ( $contato -> getDescricao ( ) ) ) ?>
 			</p>
 			<p>
 				<strong>Data de nascimento:</strong>
@@ -48,9 +48,9 @@
 
 					<?php foreach ( $contato -> getfotos ( ) as $foto ) : ?>
 						<tr>
-							<td><?= $foto -> getNome ( ) ?></td>
+							<td><?= htmlentities ( $foto -> getNome ( ) ) ?></td>
 							<td>
-								<a href="fotos/<?= $foto -> getArquivo ( ) ?>">
+								<a href="fotos/<?= htmlentities ( $foto -> getArquivo ( ) ) ?>">
 									Visualizar
 								</a>
 								<a href="remover_foto.php?id=<?= $foto -> getId ( ) ?>">

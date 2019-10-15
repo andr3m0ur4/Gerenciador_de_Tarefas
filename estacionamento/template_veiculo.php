@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<div class="bloco_principal">
-			<h1>Veículo: <?= $veiculo -> getPlaca ( ) ?></h1>
+			<h1>Veículo: <?= htmlentities ( $veiculo -> getPlaca ( ) ) ?></h1>
 			<p>
 				<a href="veiculos.php">
 					Voltar para a lista de veículos
@@ -16,11 +16,11 @@
 
 			<p>
 				<strong>Marca:</strong>
-				<?= $veiculo -> getMarca ( ) ?>
+				<?= htmlentities ( $veiculo -> getMarca ( ) ) ?>
 			</p>
 			<p>
 				<strong>Modelo:</strong>
-				<?= $veiculo -> getModelo ( ) ?>
+				<?= htmlentities ( $veiculo -> getModelo ( ) ) ?>
 			</p>
 			<p>
 				<strong>Hora da entrada:</strong>
@@ -46,9 +46,9 @@
 					
 					<tr>
 						<?php if ( !empty ( $veiculo -> getFotoEntrada ( ) ) ) : ?>
-							<td><?= $veiculo -> getFotoEntrada ( ) ?></td>
+							<td><?= htmlentities ( $veiculo -> getFotoEntrada ( ) ) ?></td>
 							<td>
-								<a href="fotos/<?= $veiculo -> getFotoEntrada ( ) ?>">
+								<a href="fotos/<?= htmlentities ( $veiculo -> getFotoEntrada ( ) ) ?>">
 									Visualizar
 								</a>
 								<a href="remover_foto.php?id=<?= $veiculo -> getId ( ) ?>&entrada">
@@ -60,9 +60,9 @@
 							<td></td>
 						<?php endif; ?>
 						<?php if ( !empty ( $veiculo -> getFotoSaida ( ) ) ) : ?>
-							<td><?= $veiculo -> getFotoSaida ( ) ?></td>
+							<td><?= htmlentities ( $veiculo -> getFotoSaida ( ) ) ?></td>
 							<td>
-								<a href="fotos/<?= $veiculo -> getFotoSaida ( ) ?>">
+								<a href="fotos/<?= htmlentities ( $veiculo -> getFotoSaida ( ) ) ?>">
 									Visualizar
 								</a>
 								<a href="remover_foto.php?id=<?= $veiculo -> getId ( ) ?>&saida">
@@ -86,8 +86,10 @@
 					<legend>Nova foto</legend>
 
 					<input type="hidden" name="id" value="<?= $veiculo -> getId ( ) ?>">
-					<input type="hidden" name="foto_entrada" value="<?= $veiculo -> getFotoEntrada ( ) ?>">
-					<input type="hidden" name="foto_saida" value="<?= $veiculo -> getFotoSaida ( ) ?>">
+					<input type="hidden" name="foto_entrada" 
+						value="<?= htmlentities ( $veiculo -> getFotoEntrada ( ) ) ?>">
+					<input type="hidden" name="foto_saida" 
+						value="<?= htmlentities ( $veiculo -> getFotoSaida ( ) ) ?>">
 
 					<label>
 						Foto da entrada:<br>

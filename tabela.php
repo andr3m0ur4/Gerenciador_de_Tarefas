@@ -12,10 +12,10 @@
 		<tr>
 			<td>
 				<a href="tarefa.php?id=<?php echo $tarefa -> getId ( ); ?>">
-					<?php echo $tarefa -> getNome ( ); ?>
+					<?php echo htmlentities ( $tarefa -> getNome ( ) ); ?>
 				</a>
 			</td>
-			<td><?php echo $tarefa -> getDescricao ( ); ?></td>
+			<td><?php echo htmlentities ( $tarefa -> getDescricao ( ) ); ?></td>
 			<td><?php echo traduz_data_para_exibir ( $tarefa -> getPrazo ( ) ); ?></td>
 			<td><?php echo traduz_prioridade ( $tarefa -> getPrioridade ( ) ); ?></td>
 			<td><?php echo traduz_concluida ( $tarefa -> getConcluida ( ) ); ?></td>

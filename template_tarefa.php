@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<div class="bloco_principal">
-			<h1>Tarefa: <?php echo $tarefa -> getNome ( ); ?></h1>
+			<h1>Tarefa: <?php echo htmlentities ( $tarefa -> getNome ( ) ); ?></h1>
 			<p>
 				<a href="tarefas.php">
 					Voltar para a lista de tarefas
@@ -20,7 +20,7 @@
 			</p>
 			<p>
 				<strong>Descrição:</strong>
-				<?php echo nl2br ( $tarefa -> getDescricao ( ) ); ?>
+				<?php echo nl2br ( htmlentities ( $tarefa -> getDescricao ( ) ) ); ?>
 			</p>
 			<p>
 				<strong>Prazo:</strong>
@@ -44,7 +44,7 @@
 
 					<?php foreach ( $tarefa -> getAnexos ( ) as $anexo ) : ?>
 						<tr>
-							<td><?php echo $anexo -> getNome ( ); ?></td>
+							<td><?php echo htmlentities ( $anexo -> getNome ( ) ); ?></td>
 							<td>
 								<a href="anexos/<?php echo $anexo -> getArquivo ( ); ?>">
 									Download

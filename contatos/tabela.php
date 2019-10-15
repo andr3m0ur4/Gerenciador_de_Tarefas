@@ -13,12 +13,12 @@
 		<tr>
 			<td>
 				<a href="contato.php?id=<?= $contato -> getId ( ) ?>">
-					<?= $contato -> getNome ( ) ?>
+					<?= htmlentities ( $contato -> getNome ( ) ) ?>
 				</a>
 			</td>
-			<td><?= $contato -> getTelefone ( ) ?></td>
-			<td><?= $contato -> getEmail ( ) ?></td>
-			<td><?= $contato -> getDescricao ( ) ?></td>
+			<td><?= htmlentities ( $contato -> getTelefone ( ) ) ?></td>
+			<td><?= htmlentities ( $contato -> getEmail ( ) ) ?></td>
+			<td><?= htmlentities ( $contato -> getDescricao ( ) ) ?></td>
 			<td><?= traduz_data_para_exibir ( $contato -> getDataNascimento ( ) ) ?></td>
 			<td><?= traduz_favorito ( $contato -> getFavorito ( ) ) ?></td>
 			<td>

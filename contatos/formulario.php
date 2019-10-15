@@ -9,7 +9,7 @@
 					<?= $erros_validacao['nome'] ?>
 				</span>
 			<?php endif; ?>
-			<input type="text" name="nome" value="<?= $contato -> getNome ( ) ?>">
+			<input type="text" name="nome" value="<?= htmlentities ( $contato -> getNome ( ) ) ?>">
 		</label>
 		<label>
 			Telefone:
@@ -18,7 +18,7 @@
 					<?= $erros_validacao['telefone'] ?>
 				</span>
 			<?php endif; ?>
-			<input type="tel" name="telefone" value="<?= $contato -> getTelefone ( ) ?>">
+			<input type="tel" name="telefone" value="<?= htmlentities ( $contato -> getTelefone ( ) ) ?>">
 		</label>
 		<label>
 			Email:
@@ -27,11 +27,11 @@
 					<?= $erros_validacao['email'] ?>
 				</span>
 			<?php endif; ?>
-			<input type="email" name="email" value="<?= $contato -> getEmail ( ) ?>">
+			<input type="email" name="email" value="<?= htmlentities ( $contato -> getEmail ( ) ) ?>">
 		</label>
 		<label>
 			Descrição (Opcional):
-			<textarea name="descricao"><?= $contato -> getDescricao ( ) ?></textarea>
+			<textarea name="descricao"><?= htmlentities ( $contato -> getDescricao ( ) ) ?></textarea>
 		</label>
 		<label>
 			Data de nascimento:

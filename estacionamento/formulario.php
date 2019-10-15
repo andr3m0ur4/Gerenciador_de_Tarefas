@@ -9,15 +9,15 @@
 					<?= $erros_validacao['placa'] ?>
 				</span>
 			<?php endif; ?>
-			<input type="text" name="placa" value="<?= $veiculo -> getPlaca ( ) ?>">
+			<input type="text" name="placa" value="<?= htmlentities ( $veiculo -> getPlaca ( ) ) ?>">
 		</label>
 		<label>
 			Marca:
-			<input type="text" name="marca" value="<?= $veiculo -> getMarca () ?>">
+			<input type="text" name="marca" value="<?= htmlentities ( $veiculo -> getMarca ( ) ) ?>">
 		</label>
 		<label>
 			Modelo:
-			<input type="text" name="modelo" value="<?= $veiculo -> getModelo ( ) ?>">
+			<input type="text" name="modelo" value="<?= htmlentities ( $veiculo -> getModelo ( ) ) ?>">
 		</label>
 		<label>
 			Hora da entrada:

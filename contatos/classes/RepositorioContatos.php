@@ -40,6 +40,8 @@ class RepositorioContatos {
 
 	private function buscar_contato ( $id ) {
 
+		$id = $this -> conexao -> escape_string ( $id );
+
 		$sqlBusca = "SELECT * FROM contatos WHERE id = {$id}";
 
 		$resultado = $this -> conexao -> query ( $sqlBusca );
@@ -71,10 +73,10 @@ class RepositorioContatos {
 
 	public function salvar ( $contato ) {
 
-		$nome = $contato -> getNome ( );
-		$telefone = $contato -> getTelefone ( );
-		$email = $contato -> getEmail ( );
-		$descricao = $contato -> getDescricao ( );
+		$nome = strip_tags ( $this -> conexao -> escape_string ( $contato -> getNome ( ) ) );
+		$telefone = strip_tags ( $this -> conexao -> escape_string ( $contato -> getTelefone ( ) ) );
+		$email = strip_tags ( $this -> conexao -> escape_string ( $contato -> getEmail ( ) ) );
+		$descricao = strip_tags ( $this -> conexao -> escape_string ( $contato -> getDescricao ( ) ) );
 		$data_nascimento = $contato -> getDataNascimento ( );
 		$favorito = ( $contato -> getFavorito ( ) ) ? 1 : 0;
 
@@ -99,10 +101,10 @@ class RepositorioContatos {
 	public function atualizar ( $contato ) {
 
 		$id = $contato -> getId ( );
-		$nome = $contato -> getNome ( );
-		$telefone = $contato -> getTelefone ( );
-		$email = $contato -> getEmail ( );
-		$descricao = $contato -> getDescricao ( );
+		$nome = strip_tags ( $this -> conexao -> escape_string ( $contato -> getNome ( ) ) );
+		$telefone = strip_tags ( $this -> conexao -> escape_string ( $contato -> getTelefone ( ) ) );
+		$email = strip_tags ( $this -> conexao -> escape_string ( $contato -> getEmail ( ) ) );
+		$descricao = strip_tags ( $this -> conexao -> escape_string ( $contato -> getDescricao ( ) ) );
 		$data_nascimento = $contato -> getDataNascimento ( );
 		$favorito = ( $contato -> getFavorito ( ) ) ? 1 : 0;
 
@@ -123,6 +125,8 @@ class RepositorioContatos {
 
 	public function remover ( $id ) {
 
+		$id = $this -> conexao -> escape_string ( $id );
+
 		$sqlRemover = "DELETE FROM contatos WHERE id = {$id}";
 
 		$this -> conexao -> query ( $sqlRemover );
@@ -130,14 +134,17 @@ class RepositorioContatos {
 
 	public function salvar_foto ( Foto $foto ) {
 
+		$nome = strip_tags ( $this -> conexao -> escape_string ( $foto -> getNome ( ) ) );
+		$arquivo = strip_tags ( $this -> conexao -> escape_string ( $foto -> getArquivo ( ) ) );
+
 		$sqlGravar = "
 			INSERT INTO fotos
 			(contato_id, nome, arquivo)
 			VALUES
 			(
 				{$foto -> getContatoId ( )},
-				'{$foto -> getNome ( )}',
-				'{$foto -> getArquivo ( )}'
+				'{$nome}',
+				'{$arquivo}'
 			)
 		";
 
@@ -146,6 +153,8 @@ class RepositorioContatos {
 	}
 
 	public function buscar_fotos ( $contato_id ) {
+
+		$contato_id = $this -> conexao -> escape_string ( $contato_id );
 
 		$sqlBusca = "SELECT * FROM fotos WHERE contato_id = {$contato_id}";
 
@@ -163,6 +172,8 @@ class RepositorioContatos {
 
 	public function buscar_foto ( $id ) {
 
+		$id = $this -> conexao -> escape_string ( $id );
+
 		$sqlBusca = "SELECT * FROM fotos WHERE id = {$id}";
 
 		$resultado = $this -> conexao -> query ( $sqlBusca );
@@ -171,6 +182,8 @@ class RepositorioContatos {
 	}
 
 	public function remover_foto ( $id ) {
+
+		$id = $this -> conexao -> escape_string ( $id );
 
 		$sqlRemover = "DELETE FROM fotos WHERE id = {$id}";
 

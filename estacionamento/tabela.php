@@ -12,11 +12,11 @@
 		<tr>
 			<td>
 				<a href="veiculo.php?id=<?= $veiculo -> getId ( ) ?>">
-					<?= $veiculo -> getPlaca ( ) ?>
+					<?= htmlentities ( $veiculo -> getPlaca ( ) ) ?>
 				</a>
 			</td>
-			<td><?= $veiculo -> getMarca ( ) ?></td>
-			<td><?= $veiculo -> getModelo ( ) ?></td>
+			<td><?= htmlentities ( $veiculo -> getMarca ( ) ) ?></td>
+			<td><?= htmlentities ( $veiculo -> getModelo ( ) ) ?></td>
 			<td><?= traduz_hora_para_exibir ( $veiculo -> getHoraEntrada ( ) ) ?></td>
 			<td><?= traduz_hora_para_exibir ( $veiculo -> getHoraSaida ( ) ) ?></td>
 			<td>

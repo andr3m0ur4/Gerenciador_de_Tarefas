@@ -36,6 +36,8 @@ class RepositorioVeiculos {
 
 	private function buscar_veiculo ( $id ) {
 
+		$id = $this -> conexao -> escape_string ( $id );
+
 		$sqlBusca = "SELECT * FROM veiculos WHERE id = {$id}";
 
 		$resultado = $this -> conexao -> query ( $sqlBusca );
@@ -44,11 +46,11 @@ class RepositorioVeiculos {
 
 	}
 
-	public function salvar ( $veiculo ) {
+	public function salvar ( Veiculo $veiculo ) {
 
-		$placa = $veiculo -> getPlaca ( );
-		$marca = $veiculo -> getMarca ( );
-		$modelo = $veiculo -> getModelo ( );
+		$placa = strip_tags ( $this -> conexao -> escape_string ( $veiculo -> getPlaca ( ) ) );
+		$marca = strip_tags ( $this -> conexao -> escape_string ( $veiculo -> getMarca ( ) ) );
+		$modelo = strip_tags ( $this -> conexao -> escape_string ( $veiculo -> getModelo ( ) ) );
 		$hora_entrada = $veiculo -> getHoraEntrada ( );
 		$hora_saida = $veiculo -> getHoraSaida ( );
 
@@ -71,18 +73,20 @@ class RepositorioVeiculos {
 
 	public function remover ( $id ) {
 
+		$id = $this -> conexao -> escape_string ( $id );
+
 		$sqlRemover = "DELETE FROM veiculos WHERE id = {$id}";
 
 		$this -> conexao -> query ( $sqlRemover );
 
 	}
 
-	public function atualizar ( $veiculo ) {
+	public function atualizar ( Veiculo $veiculo ) {
 
 		$id = $veiculo -> getId ( );
-		$placa = $veiculo -> getPlaca ( );
-		$marca = $veiculo -> getMarca ( );
-		$modelo = $veiculo -> getModelo ( );
+		$placa = strip_tags ( $this -> conexao -> escape_string ( $veiculo -> getPlaca ( ) ) );
+		$marca = strip_tags ( $this -> conexao -> escape_string ( $veiculo -> getMarca ( ) ) );
+		$modelo = strip_tags ( $this -> conexao -> escape_string ( $veiculo -> getModelo ( ) ) );
 		$hora_entrada = $veiculo -> getHoraEntrada ( );
 		$hora_saida = $veiculo -> getHoraSaida ( );
 
@@ -100,11 +104,11 @@ class RepositorioVeiculos {
 
 	}
 
-	public function salvar_foto ( $foto ) {
+	public function salvar_foto ( Veiculo $foto ) {
 
 		$id = $foto -> getId ( );
-		$foto_entrada = $foto -> getFotoEntrada ( );
-		$foto_saida = $foto -> getFotoSaida ( );
+		$foto_entrada = strip_tags ( $this -> conexao -> escape_string ( $foto -> getFotoEntrada ( ) ) );
+		$foto_saida = strip_tags ( $this -> conexao -> escape_string ( $foto -> getFotoSaida ( ) ) );
 
 		$sqlEditar = "
 			UPDATE veiculos SET
@@ -119,6 +123,8 @@ class RepositorioVeiculos {
 
 	public function buscar_fotos ( $id ) {
 
+		$id = $this -> conexao -> escape_string ( $id );
+
 		$sqlBusca = "SELECT foto_entrada, foto_saida FROM veiculos WHERE id = {$id}";
 
 		$resultado = $this -> conexao -> query ( $sqlBusca );
@@ -128,6 +134,8 @@ class RepositorioVeiculos {
 	}
 
 	public function buscar_foto ( $id, $horario ) {
+
+		$id = $this -> conexao -> escape_string ( $id );
 
 		$sqlBusca = "SELECT id, $horario FROM veiculos WHERE id = {$id}";
 
@@ -139,6 +147,8 @@ class RepositorioVeiculos {
 
 	public function remover_foto_entrada ( $id ) {
 
+		$id = $this -> conexao -> escape_string ( $id );
+
 		$sqlEditar = "UPDATE veiculos SET
 			foto_entrada = ''
 		WHERE id = {$id}";
@@ -148,6 +158,8 @@ class RepositorioVeiculos {
 	}
 
 	public function remover_foto_saida ( $id ) {
+
+		$id = $this -> conexao -> escape_string ( $id );
 
 		$sqlEditar = "UPDATE veiculos SET
 			foto_saida = ''
