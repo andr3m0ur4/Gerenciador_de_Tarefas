@@ -1,14 +1,5 @@
 <?php
 
-require 'config.php';
-require 'banco.php';
-require 'ajudantes.php';
-require 'classes/Tarefa.php';
-require 'classes/Anexo.php';
-require 'classes/RepositorioTarefas.php';
-
-$repositorio_tarefas = new RepositorioTarefas ( $conexao );
-
 $tem_erros = false;
 $erros_validacao = [];
 
@@ -39,4 +30,4 @@ if ( tem_post ( ) ) {
 
 $tarefa = $repositorio_tarefas -> buscar ( $_GET['id'] );
 
-include 'template_tarefa.php';
+include __DIR__ . '/../views/template_tarefa.php';

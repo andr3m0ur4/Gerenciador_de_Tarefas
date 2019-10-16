@@ -1,10 +1,9 @@
 <?php 
 
-// Conexão ao banco de dados (MySQL)
-define ( "BD_SERVIDOR", "127.0.0.1" );
+// Acesso ao banco de dados
 define ( "BD_USUARIO", "sistemaestacionamento" );
 define ( "BD_SENHA", "sistema" );
-define ( "BD_BANCO", "estacionamento" );
+define ( "BD_DSN", "mysql:dbname=estacionamento;host=localhost" );
 
 // E-mail para notificação
 define ( "EMAIL_NOTIFICACAO", "andre.benedicto@etec.sp.gov.br" );

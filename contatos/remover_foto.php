@@ -5,7 +5,7 @@ include 'banco.php';
 require 'classes/Foto.php';
 require 'classes/RepositorioContatos.php';
 
-$repositorio_contatos = new RepositorioContatos ( $conexao );
+$repositorio_contatos = new RepositorioContatos ( $pdo );
 
 $foto = $repositorio_contatos -> buscar_foto ( $_GET['id'] );
 $repositorio_contatos -> remover_foto ( $foto -> getId ( ) );

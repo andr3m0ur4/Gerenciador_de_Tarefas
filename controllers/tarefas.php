@@ -1,14 +1,5 @@
 <?php 
 
-require 'config.php';
-require 'banco.php';
-require 'ajudantes.php';
-require 'classes/Tarefa.php';
-require 'classes/Anexo.php';
-require 'classes/RepositorioTarefas.php';
-
-$repositorio_tarefas = new RepositorioTarefas ( $conexao );
-
 $exibir_tabela = true;
 
 $tem_erros = false;
@@ -58,11 +49,11 @@ if ( tem_post ( ) ) {
 			enviar_email ( $tarefa );
 		}
 
-		header ( 'Location: tarefas.php' );
+		header ( 'Location: index.php?rota=tarefas' );
 		die ( );
 	}
 }
 
 $tarefas = $repositorio_tarefas -> buscar ( );
 
-include 'template.php';
+require __DIR__ . '/../views/template.php';

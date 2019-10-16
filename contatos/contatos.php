@@ -7,7 +7,7 @@ require 'classes/Contato.php';
 require 'classes/Foto.php';
 require 'classes/RepositorioContatos.php';
 
-$repositorio_contatos = new RepositorioContatos ( $conexao );
+$repositorio_contatos = new RepositorioContatos ( $pdo );
 
 $exibir_tabela = true;
 

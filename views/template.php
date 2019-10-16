@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Gerenciador de Tarefas</title>
-		<link rel="stylesheet" type="text/css" href="tarefas.css">
+		<link rel="stylesheet" type="text/css" href="assets/tarefas.css">
 	</head>
 	<body>
 		<h1>Gerenciador de Tarefas</h1>

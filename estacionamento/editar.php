@@ -6,7 +6,7 @@ require 'ajudantes.php';
 require 'classes/Veiculo.php';
 require 'classes/RepositorioVeiculos.php';
 
-$repositorio_veiculos = new RepositorioVeiculos ( $conexao );
+$repositorio_veiculos = new RepositorioVeiculos ( $pdo );
 
 $veiculo = $repositorio_veiculos -> buscar ( $_GET['id'] );
 
