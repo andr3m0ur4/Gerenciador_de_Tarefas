@@ -119,14 +119,14 @@ function validar_data ( $data ) {
 
 function tratar_anexo ( $anexo ) {
 
-	$padrao = '/^.+(\.pdf|\.zip)$/';
+	$padrao = '/^.+(\.pdf$|\.zip$)$/';
 	$resultado = preg_match ( $padrao, $anexo['name'] );
 
 	if ( $resultado == 0 ) {
 		return false;
 	}
 
-	move_uploaded_file ( $anexo['tmp_name'], "anexos/{$anexo['name']}" );
+	move_uploaded_file ( $anexo['tmp_name'], __DIR__ . "/../anexos/{$anexo['name']}" );
 
 	return true;
 	
@@ -135,7 +135,7 @@ function tratar_anexo ( $anexo ) {
 function enviar_email ( Tarefa $tarefa ) {
 
 	// Acessar a aplicação de e-mails;
-	require 'bibliotecas/PHPMailer/PHPMailerAutoload.php';
+	include __DIR__ . '/../libs/PHPMailer/PHPMailerAutoload.php';
 
 	// Acessar o servidor de e-mails;
 	// Fazer a autenticação com usuário e senha;
@@ -163,7 +163,7 @@ function enviar_email ( Tarefa $tarefa ) {
 
 	// Adicionar os	anexos,	quando necessário;
 	foreach ( $tarefa -> getAnexos ( ) as $anexo ) {
-		$email -> addAttachment ( "anexos/{$anexo -> getArquivo ( )}" );
+		$email -> addAttachment ( __DIR__ . "/../anexos/{$anexo -> getArquivo ( )}" );
 	}
 
 	// Usar	a opção	de enviar o	e-mail.
@@ -174,7 +174,7 @@ function enviar_email ( Tarefa $tarefa ) {
 
 }
 
-function preparar_corpo_email ( $tarefa ) {
+function preparar_corpo_email ( Tarefa $tarefa ) {
 
 	// Aqui vamos pegar o conteúdo processado do arquivo template_email.php
 
@@ -182,7 +182,7 @@ function preparar_corpo_email ( $tarefa ) {
 	ob_start ( );
 
 	// Incluir o arquivo template_email.php:
-	include 'template_email.php';
+	include __DIR__ . '/../views/template_email.php';
 
 	// Guardar o conteúdo do arquivo em uma variável:
 	$corpo = ob_get_contents ( );
