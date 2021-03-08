@@ -8,25 +8,25 @@
 		<th>Opções</th>
 	</tr>
 
-	<?php foreach ( $tarefas as $tarefa ) : ?>
+	<?php foreach ($tarefas as $tarefa) : ?>
 		<tr>
 			<td>
-				<a href="index.php?rota=tarefa&id=<?php echo $tarefa -> getId ( ); ?>">
-					<?php echo htmlentities ( $tarefa -> getNome ( ) ); ?>
+				<a href="index.php?rota=tarefa&id=<?= $tarefa->getId() ?>">
+					<?= htmlentities($tarefa->getNome()) ?>
 				</a>
 			</td>
-			<td><?php echo htmlentities ( $tarefa -> getDescricao ( ) ); ?></td>
-			<td><?php echo traduz_data_para_exibir ( $tarefa -> getPrazo ( ) ); ?></td>
-			<td><?php echo traduz_prioridade ( $tarefa -> getPrioridade ( ) ); ?></td>
-			<td><?php echo traduz_concluida ( $tarefa -> getConcluida ( ) ); ?></td>
+			<td><?= htmlentities($tarefa->getDescricao()) ?></td>
+			<td><?= traduz_data_para_exibir($tarefa->getPrazo()) ?></td>
+			<td><?= traduz_prioridade($tarefa->getPrioridade()) ?></td>
+			<td><?= traduz_concluida($tarefa->getConcluida()) ?></td>
 			<td>
-				<a href="index.php?rota=editar&id=<?php echo $tarefa -> getId ( ); ?>">
+				<a href="index.php?rota=editar&id=<?= $tarefa->getId() ?>">
 					Editar
 				</a>
-				<a href="index.php?rota=remover&id=<?php echo $tarefa -> getId ( ); ?>">
+				<a href="index.php?rota=remover&id=<?= $tarefa->getId() ?>">
 					Remover
 				</a>
 			</td>
 		</tr>
-	<?php endforeach; ?>
+	<?php endforeach ?>
 </table>
